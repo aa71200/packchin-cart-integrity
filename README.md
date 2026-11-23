@@ -1,6 +1,6 @@
 # Packchin Cart Integrity
 
-A selected source sample from CodexaWP’s **Packchin 0.1.0** WooCommerce kit builder. It exercises the original cart transaction and quote path against native WooCommerce cart lines.
+A failed kit item should leave the cart as it was, and a repeated request should leave it with one copy. This fixture exercises the original **Packchin 0.1.0** cart transaction and quote path against native WooCommerce cart lines.
 
 ## Cart verification preview
 
