@@ -6,4 +6,8 @@ Create a local disposable WordPress site with WooCommerce and set `CODEXAWP_TEST
 
 Start with [the cart adapter](src/Features/Commerce.php) and [the fixture](tests/check.php). The included supporting classes are the subset used by the fixture. GPL-2.0-or-later, see [LICENSE](LICENSE).
 
+![Cart snapshot and verification results from the WooCommerce test run](docs/cart-verification.png)
+
+To render the same report from a fresh verification run, use `php tests/check.php --html > report.html` and open the generated file in a browser.
+
 [Original Packchin mobile storefront (Persian demo)](docs/original-mobile-demo.png) · [Cart integrity fixture results](docs/verification.txt)

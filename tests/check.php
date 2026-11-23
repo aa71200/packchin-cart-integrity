@@ -18,6 +18,11 @@ define( 'PACKCHIN_DIR', dirname( __DIR__ ) . '/' );
 require PACKCHIN_DIR . 'autoload.php';
 Repository::install();
 
+$html = in_array( '--html', $argv, true );
+if ( $html ) {
+	ob_start();
+}
+
 function assert_cart( bool $ok, string $message ): void {
 	if ( ! $ok ) {
 		throw new RuntimeException( $message );
@@ -94,4 +99,10 @@ try {
 } catch ( RuntimeException $failure ) {
 	assert_cart( $blocked && array_keys( WC()->cart->get_cart_contents() ) === array_keys( $snapshot ), 'A failed second line restores the previous WooCommerce cart' );
 }
-echo "Cart integrity fixture passed.\n";
+if ( $html ) {
+	preg_match_all( '/^PASS: (.+)$/m', ob_get_clean(), $results );
+	$checks = $results[1];
+	require __DIR__ . '/cart-report.php';
+} else {
+	echo "Cart integrity fixture passed.\n";
+}
