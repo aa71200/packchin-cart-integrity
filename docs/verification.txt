@@ -1,0 +1,5 @@
+PASS: Both products were added as a single native WooCommerce cart group
+PASS: Replaying a request adds no duplicate lines
+PASS: A stale price token requires reconfirmation before the cart is changed
+PASS: A failed second line restores the previous WooCommerce cart
+Cart integrity fixture passed.
