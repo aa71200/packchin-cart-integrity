@@ -25,7 +25,7 @@ A failed kit item should leave the cart as it was, and a repeated request should
 
 ## Run the fixture
 
-Create a local disposable WordPress site with WooCommerce and set `CODEXAWP_TEST_WP_LOAD` to its `wp-load.php`. Run `php tests/check.php` from the repository. The fixture creates and publishes a two-product kit, verifies that repeating a request adds no duplicates, changes a price, and injects a failure on the second line to verify the original cart stays intact.
+Create a local disposable WordPress site with WooCommerce and set `CODEXAWP_TEST_WP_LOAD` to its `wp-load.php`. Run `php tests/check.php` for a guest and `php tests/check.php --customer` for a signed-in shopper. The fixture covers replay, a changed price and a failure on the second kit line. It reads the saved session after failure and checks the product data, quantities and coupon state. The signed-in fixture also checks the persistent cart.
 
 Start with [the cart adapter](src/Features/Commerce.php) and [the fixture](tests/check.php). The included supporting classes are the subset used by the fixture. GPL-2.0-or-later, see [LICENSE](LICENSE).
 

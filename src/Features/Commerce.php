@@ -101,9 +101,35 @@ final class Commerce {
 					( new \WC_Cart_Session( WC()->cart ) )->get_cart_from_session();
 				}
 			}
-			$result = $callback();
-			( new \WC_Cart_Session( WC()->cart ) )->set_session();
-			WC()->session->save_data();
+			$cart = WC()->cart;
+			$session = WC()->session;
+			$cart_session = new \WC_Cart_Session( $cart );
+			$snapshot = [
+				$cart->get_cart_contents(), $cart->get_removed_cart_contents(), $cart->get_applied_coupons(),
+				$cart->get_coupon_discount_totals(), $cart->get_coupon_discount_tax_totals(), $cart->get_totals(),
+			];
+			$operations = $session->get( 'packchin_operations' );
+			$pause_persistence = static fn(): bool => false;
+			add_filter( 'woocommerce_persistent_cart_enabled', $pause_persistence, PHP_INT_MAX );
+			try {
+				$result = $callback();
+				$cart_session->set_session();
+				$session->save_data();
+			} catch ( \Throwable $error ) {
+				$cart->set_cart_contents( $snapshot[0] );
+				$cart->set_removed_cart_contents( $snapshot[1] );
+				$cart->set_applied_coupons( $snapshot[2] );
+				$cart->set_coupon_discount_totals( $snapshot[3] );
+				$cart->set_coupon_discount_tax_totals( $snapshot[4] );
+				$cart->set_totals( $snapshot[5] );
+				$session->set( 'packchin_operations', $operations );
+				$cart_session->set_session();
+				$session->save_data();
+				throw $error;
+			} finally {
+				remove_filter( 'woocommerce_persistent_cart_enabled', $pause_persistence, PHP_INT_MAX );
+			}
+			$cart_session->persistent_cart_update();
 			return $result;
 		} finally {
 			self::$mutating = false;
@@ -145,8 +171,6 @@ final class Commerce {
 				if ( ! is_string( $body['priceToken'] ?? null ) || ! hash_equals( $quote['priceToken'], $body['priceToken'] ) ) {
 					throw new PriceChanged( $quote );
 				}
-				$snapshot       = WC()->cart->cart_contents;
-				$removed        = WC()->cart->removed_cart_contents;
 				$group_id     ??= wp_generate_uuid4();
 				self::$mutating = true;
 				try {
@@ -185,11 +209,6 @@ final class Commerce {
 					);
 					$operations                = array_filter( $operations, static fn( array $op ): bool => $op['at'] > time() - DAY_IN_SECONDS );
 					WC()->session->set( 'packchin_operations', array_slice( $operations, -100, null, true ) );
-				} catch ( \Throwable $error ) {
-					WC()->cart->cart_contents         = $snapshot;
-					WC()->cart->removed_cart_contents = $removed;
-					WC()->cart->calculate_totals();
-					throw $error;
 				} finally {
 					self::$mutating = false;
 				}
@@ -211,22 +230,13 @@ final class Commerce {
 	public function remove( string $id ): array {
 		return $this->lock(
 			function () use ( $id ): array {
-				$snapshot = WC()->cart->cart_contents;
-				$removed = WC()->cart->removed_cart_contents;
 				self::$mutating = true;
-				try {
-					foreach ( WC()->cart->get_cart() as $key => $item ) {
-						if ( ( $item['packchin_group'] ?? '' ) === $id ) {
-							WC()->cart->remove_cart_item( $key );
-						}
+				foreach ( WC()->cart->get_cart() as $key => $item ) {
+					if ( ( $item['packchin_group'] ?? '' ) === $id ) {
+						WC()->cart->remove_cart_item( $key );
 					}
-					WC()->cart->calculate_totals();
-				} catch ( \Throwable $error ) {
-					WC()->cart->cart_contents = $snapshot;
-					WC()->cart->removed_cart_contents = $removed;
-					WC()->cart->calculate_totals();
-					throw $error;
 				}
+				WC()->cart->calculate_totals();
 				return $this->summary();
 			}
 		);
