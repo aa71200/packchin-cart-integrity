@@ -9,12 +9,12 @@ defined( 'ABSPATH' ) || exit;
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>Packchin Cart Integrity</title>
 	<style>
-		* {box-sizing:border-box} body {margin:0;background:#edf3fc;color:#192a50;font:15px/1.5 system-ui,sans-serif}
+		* {box-sizing:border-box} body {margin:0;background:#edf4f1;color:#203a32;font:15px/1.5 system-ui,sans-serif}
 		main {max-width:1030px;margin:auto;padding:clamp(12px,3.4vw,35px)}
-		header {background:linear-gradient(118deg,#142243,#233c73);color:white;border-radius:13px;padding:26px 30px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:end}
+		header {background:linear-gradient(118deg,#193a32,#2a6253);color:white;border-radius:15px;padding:26px 30px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:end}
 		header p {margin:0;color:#dae5fb} h1 {font-size:clamp(25px,4vw,40px);letter-spacing:-.044em;line-height:1.08;margin:5px 0 0}
 		.panels {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px;margin-top:15px}
-		section {min-width:0;background:#fff;border:1px solid #d7e2f3;border-radius:12px;padding:20px} h2 {margin:0 0 9px;font-size:18px}
+		section {min-width:0;background:#fff;border:1px solid #d2e2da;border-radius:14px;padding:20px} h2 {margin:0 0 12px;font-size:18px}
 		table {width:100%;border-collapse:collapse;text-align:start;font-size:14px}
 		th,td {padding:8px 5px;border-block-end:1px solid #e1e8f4;text-align:start} th {color:#435578;font-weight:650}
 		td:last-child,thead th:last-child {text-align:end;white-space:nowrap}

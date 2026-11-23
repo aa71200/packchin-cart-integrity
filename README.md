@@ -1,5 +1,7 @@
 # Packchin Cart Integrity
 
+**What to try.** Run the WooCommerce fixture to verify that a failed kit addition restores the cart and a retried request leaves one copy.
+
 [![WordPress and WooCommerce integration checks](https://github.com/aa71200/packchin-cart-integrity/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/aa71200/packchin-cart-integrity/actions/workflows/checks.yml)
 
 A failed kit item should leave the cart as it was, and a repeated request should leave it with one copy. This fixture exercises the original **Packchin 0.1.0** cart transaction and quote path against native WooCommerce cart lines.
