@@ -9,18 +9,18 @@ A failed kit item should leave the cart as it was, and a repeated request should
 ## Cart verification preview
 
 <p align="center">
-  <a href="docs/cart-verification.png"><img src="docs/cart-verification.png" width="900" alt="Two native WooCommerce cart lines and four passing Packchin test checks"></a>
+  <a href="docs/cart-verification.png"><img src="docs/cart-verification.png" width="900" alt="Two native WooCommerce cart lines and five passing Packchin test checks"></a>
   <br>
-  <em>Native WooCommerce cart snapshot and the four recorded fixture checks</em>
+  <em>Native WooCommerce cart snapshot and five recorded fixture checks</em>
 </p>
 
 <details>
-<summary>View the original mobile storefront</summary>
+<summary>View the mobile kit builder</summary>
 
 <p align="center">
-  <a href="docs/original-mobile-demo.png"><img src="docs/original-mobile-demo.png" width="360" alt="Packchin's original Persian mobile storefront"></a>
+  <a href="docs/original-mobile-demo.png"><img src="docs/original-mobile-demo.png" width="360" alt="Packchin mobile kit builder after selecting a camera for the workshop kit"></a>
   <br>
-  <em>Original RTL storefront · mobile fixture</em>
+  <em>English test storefront at mobile width</em>
 </p>
 
 </details>
